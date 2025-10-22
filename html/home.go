@@ -15,7 +15,7 @@ func HomePage(props PageProps, things []model.Thing, now time.Time) Node {
 	props.Title = "Home"
 
 	return page(props,
-		Div(Class("prose prose-indigo prose-lg md:prose-xl"),
+		Div(Class("prose prose-blue prose-lg md:prose-xl"),
 			H1(Text("Welcome to the gomponents starter kit")),
 
 			P(Text("It uses gomponents, HTMX, and Tailwind CSS, and you can use it as a template for your new app. 😎")),

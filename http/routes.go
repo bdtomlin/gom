@@ -10,6 +10,7 @@ import (
 func (s *Server) setupRoutes() {
 	s.mux.Group(func(r chi.Router) {
 		r.Use(middleware.Compress(5))
+		r.Use(middleware.Logger)
 
 		// Sets up a static file handler with cache busting middleware.
 		r.Group(func(r chi.Router) {

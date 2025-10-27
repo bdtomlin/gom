@@ -1,6 +1,8 @@
 package http
 
 import (
+	assets "app"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"maragu.dev/httph"
@@ -16,7 +18,7 @@ func (s *Server) setupRoutes() {
 		r.Group(func(r chi.Router) {
 			r.Use(httph.VersionedAssets)
 
-			Static(r)
+			assets.Static(r)
 		})
 
 		Home(r, s.db)

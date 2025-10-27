@@ -17,9 +17,9 @@ dev:
 build-css: tailwindcss
 	./tailwindcss -i tailwind.css -o public/styles/app.css --minify
 
-.PHONY: build-docker
-build-docker: build-css
-	docker build --platform linux/amd64,linux/arm64 .
+.PHONY: build
+build: build-css
+	go build  -o gom cmd/app/main.go
 
 .PHONY: cover
 cover:

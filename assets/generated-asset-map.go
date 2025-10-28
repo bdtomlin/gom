@@ -7,7 +7,7 @@ var assetMap = map[string]string{
 	"/images/logo.png":"/images/logo-b8e5f2fdc25416b4c9140aee0c2dc5ac.png",
 	"/scripts/app.js":"/scripts/app-d41d8cd98f00b204e9800998ecf8427e.js",
 	"/scripts/htmx.js":"/scripts/htmx-892c198f5088ca057adc64955f0bfde8.js",
-	"/styles/app.css":"/styles/app-19aec9509670621ebe95cec46782e7f5.css",
+	"/styles/app.css":"/styles/app-e9a836de3c857d38870d1d13fe0034f5.css",
 }
 
 	func Path(path string) string {

@@ -5,10 +5,10 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = "./tmp/app"
-  cmd = "go build -C ./cmd/app -o ../../tmp/app ."
+  cmd = "go generate ./cmd/app && go build -C ./cmd/app -o ../../tmp/app ."
   delay = 1000
-  exclude_dir = ["assets", "tmp", "vendor", "testdata"]
-  exclude_file = []
+  exclude_dir = ["assets/public", "tmp", "vendor", "testdata"]
+  exclude_file = ["assets/generated-asset-map.go"]
   exclude_regex = ["_test.go"]
   exclude_unchanged = false
   follow_symlink = false

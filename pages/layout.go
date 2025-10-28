@@ -1,45 +1,29 @@
-// Package HTML holds all the common HTML components and utilities.
-package html
+package pages
 
 import (
-	"crypto/sha256"
-	"fmt"
-	"os"
-	"path/filepath"
-	"strings"
-	"sync"
+	"app/assets"
 
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/components"
 	. "maragu.dev/gomponents/html"
 )
 
-var hashOnce sync.Once
-var appCSSPath, appJSPath, htmxJSPath string
-
 // PageProps are properties for the [page] component.
-type PageProps struct {
+type LayoutProps struct {
 	Title       string
 	Description string
 }
 
 // page layout with header, footer, and container to restrict width and set base padding.
-func page(props PageProps, children ...Node) Node {
-	// Hash the paths for easy cache busting on changes
-	hashOnce.Do(func() {
-		appCSSPath = getHashedPath("public/styles/app.css")
-		htmxJSPath = getHashedPath("public/scripts/htmx.js")
-		appJSPath = getHashedPath("public/scripts/app.js")
-	})
-
+func layout(props LayoutProps, children ...Node) Node {
 	return HTML5(HTML5Props{
 		Title:       props.Title,
 		Description: props.Description,
 		Language:    "en",
 		Head: []Node{
-			Link(Rel("stylesheet"), Href(appCSSPath)),
-			Script(Src(htmxJSPath), Defer()),
-			Script(Src(appJSPath), Defer()),
+			Link(Rel("stylesheet"), Href(assets.Path("/styles/app.css"))),
+			Script(Src(assets.Path("/scripts/htmx.js")), Defer()),
+			Script(Src(assets.Path("/scripts/app.js")), Defer()),
 		},
 		Body: []Node{Class("bg-indigo-600 text-gray-900"),
 			Div(Class("min-h-screen flex flex-col justify-between bg-white"),
@@ -61,7 +45,7 @@ func header() Node {
 		container(true, false,
 			Div(Class("h-16 flex items-center justify-between"),
 				A(Href("/"), Class("inline-flex items-center text-xl font-semibold"),
-					Img(Src("/images/logo.png"), Alt("Logo"), Class("h-12 w-auto bg-white rounded-full mr-4")),
+					Img(Src(assets.Path("/images/logo.png")), Alt("Logo"), Class("h-12 w-auto bg-white rounded-full mr-4")),
 					Text("Home"),
 				),
 			),
@@ -90,19 +74,4 @@ func footer() Node {
 			),
 		),
 	)
-}
-
-func getHashedPath(path string) string {
-	externalPath := strings.TrimPrefix(path, "public")
-	ext := filepath.Ext(path)
-	if ext == "" {
-		panic("no extension found")
-	}
-
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return fmt.Sprintf("%v.x%v", strings.TrimSuffix(externalPath, ext), ext)
-	}
-
-	return fmt.Sprintf("%v.%x%v", strings.TrimSuffix(externalPath, ext), sha256.Sum256(data), ext)
 }

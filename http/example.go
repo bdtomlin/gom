@@ -5,13 +5,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-chi/chi/v5"
 	. "maragu.dev/gomponents"
 	hx "maragu.dev/gomponents-htmx/http"
 	ghttp "maragu.dev/gomponents/http"
 
-	"app/html"
 	"app/model"
+	"app/pages"
+	"app/partials"
 )
 
 type thingsGetter interface {
@@ -19,17 +19,19 @@ type thingsGetter interface {
 }
 
 // Home handler for the home page, as well as HTMX partial for getting things.
-func Home(r chi.Router, db thingsGetter) {
-	r.Get("/", ghttp.Adapt(func(w http.ResponseWriter, r *http.Request) (Node, error) {
-		things, err := db.GetThings(r.Context())
+func Example(s *Server) http.HandlerFunc {
+	h := func(w http.ResponseWriter, r *http.Request) (Node, error) {
+		things, err := s.db.GetThings(r.Context())
 		if err != nil {
 			return nil, err
 		}
 
 		if hx.IsRequest(r.Header) {
-			return html.ThingsPartial(things, time.Now()), nil
+			return partials.Things(things, time.Now()), nil
 		}
 
-		return html.HomePage(html.PageProps{}, things, time.Now()), nil
-	}))
+		return pages.Index(pages.LayoutProps{}, things, time.Now()), nil
+	}
+
+	return ghttp.Adapt(h)
 }

@@ -1,3 +1,5 @@
+//go:generate go run -C ../.. ./cmd/fingerprint
+
 package main
 
 import (

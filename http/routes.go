@@ -1,11 +1,10 @@
 package http
 
 import (
-	assets "app"
+	"app/assets"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"maragu.dev/httph"
 )
 
 // setupRoutes for the server.
@@ -16,11 +15,12 @@ func (s *Server) setupRoutes() {
 
 		// Sets up a static file handler with cache busting middleware.
 		r.Group(func(r chi.Router) {
-			r.Use(httph.VersionedAssets)
+			// r.Use(httph.VersionedAssets)
 
 			assets.Static(r)
 		})
 
-		Home(r, s.db)
+		r.Get("/", Index(s))
+		r.Get("/example", Example(s))
 	})
 }

@@ -1,4 +1,4 @@
-package html
+package pages
 
 import (
 	"time"
@@ -8,13 +8,13 @@ import (
 	. "maragu.dev/gomponents/html"
 
 	"app/model"
+	"app/partials"
 )
 
-// HomePage is the front page of the app.
-func HomePage(props PageProps, things []model.Thing, now time.Time) Node {
+func Index(props LayoutProps, things []model.Thing, now time.Time) Node {
 	props.Title = "Home"
 
-	return page(props,
+	return layout(props,
 		Div(Class("prose prose-blue prose-lg md:prose-xl"),
 			H1(Text("Welcome to the gomponents starter kit")),
 
@@ -29,21 +29,8 @@ func HomePage(props PageProps, things []model.Thing, now time.Time) Node {
 				Text("Get things with HTMX"), hx.Get("/"), hx.Target("#things")),
 
 			Div(ID("things"),
-				ThingsPartial(things, now),
+				partials.Things(things, now),
 			),
 		),
 	)
-}
-
-// ThingsPartial is a partial for showing a list of things, returned directly if the request is an HTMX request,
-// and used in [HomePage].
-func ThingsPartial(things []model.Thing, now time.Time) Node {
-	return Group{
-		P(Textf("Here are %v things from the mock database (updated %v):", len(things), now.Format(time.TimeOnly))),
-		Ul(
-			Map(things, func(t model.Thing) Node {
-				return Li(Text(t.Name))
-			}),
-		),
-	}
 }

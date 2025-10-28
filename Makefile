@@ -15,11 +15,12 @@ dev:
 
 .PHONY: build-css
 build-css: tailwindcss
-	./tailwindcss -i tailwind.css -o public/styles/app.css --minify
+	./tailwindcss -i tailwind.css -o assets/src/styles/app.css --minify
 
 .PHONY: build
 build: build-css
-	go build  -o gom cmd/app/main.go
+	go generate ./...
+	go build -o gom cmd/app/main.go
 
 .PHONY: cover
 cover:
@@ -46,4 +47,4 @@ test:
 
 .PHONY: watch-css
 watch-css: tailwindcss
-	./tailwindcss -i tailwind.css -o public/styles/app.css --watch
+	./tailwindcss -i tailwind.css -o assets/src/styles/app.css --watch

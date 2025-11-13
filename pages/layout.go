@@ -4,6 +4,7 @@ import (
 	"app/assets"
 
 	. "maragu.dev/gomponents"
+	hx "maragu.dev/gomponents-htmx"
 	. "maragu.dev/gomponents/components"
 	. "maragu.dev/gomponents/html"
 )
@@ -24,54 +25,16 @@ func layout(props LayoutProps, children ...Node) Node {
 			Link(Rel("stylesheet"), Href(assets.Path("/styles/app.css"))),
 			Script(Src(assets.Path("/scripts/htmx.js")), Defer()),
 			Script(Src(assets.Path("/scripts/app.js")), Defer()),
+			Script(Src(assets.Path("/scripts/tailwind-elements.js")), Defer()),
+			Script(Src(assets.Path("/scripts/idiomorph.js")), Defer()),
+			Link(Rel("icon"), Href(assets.Path("/favicon.ico"))),
+			Meta(Attr("viewport", "width=device-width, initial-scale=1")),
 		},
-		Body: []Node{Class("bg-indigo-600 text-gray-900"),
-			Div(Class("min-h-screen flex flex-col justify-between bg-white"),
-				header(),
-				Div(Class("grow"),
-					container(true, true,
-						Group(children),
-					),
-				),
-				footer(),
+		Body: []Node{
+			hx.Ext("morph"),
+			Div(
+				Group(children),
 			),
 		},
 	})
-}
-
-// header bar with logo and navigation.
-func header() Node {
-	return Div(Class("bg-indigo-600 text-white shadow-sm"),
-		container(true, false,
-			Div(Class("h-16 flex items-center justify-between"),
-				A(Href("/"), Class("inline-flex items-center text-xl font-semibold"),
-					Img(Src(assets.Path("/images/logo.png")), Alt("Logo"), Class("h-12 w-auto bg-white rounded-full mr-4")),
-					Text("Home"),
-				),
-			),
-		),
-	)
-}
-
-// container restricts the width and sets padding.
-func container(padX, padY bool, children ...Node) Node {
-	return Div(
-		Classes{
-			"max-w-7xl mx-auto":     true,
-			"px-4 md:px-8 lg:px-16": padX,
-			"py-4 md:py-8":          padY,
-		},
-		Group(children),
-	)
-}
-
-// footer with a link to the gomponents website.
-func footer() Node {
-	return Div(Class("bg-indigo-600 text-white"),
-		container(true, false,
-			Div(Class("h-16 flex items-center justify-center"),
-				A(Href("https://www.gomponents.com"), Text("www.gomponents.com")),
-			),
-		),
-	)
 }

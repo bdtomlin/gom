@@ -15,7 +15,8 @@ dev:
 
 .PHONY: build-css
 build-css: tailwindcss
-	./tailwindcss -i tailwind.css -o assets/src/styles/app.css --minify
+	# ./tailwindcss -i tailwind.css -o assets/src/styles/app.css --minify
+	./tailwindcss -i tailwind.css -o assets/src/styles/app.css
 
 .PHONY: build
 build: build-css
@@ -34,6 +35,10 @@ lint:
 start: build-css
 	go run ./cmd/app
 
+.PHONY: run
+run:
+	go run ./cmd/run
+
 tailwindcss:
 	curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-$(TAILWINDCSS_OS_ARCH)
 	mv tailwindcss-$(TAILWINDCSS_OS_ARCH) tailwindcss
@@ -47,4 +52,5 @@ test:
 
 .PHONY: watch-css
 watch-css: tailwindcss
+	# ./tailwindcss -i tailwind.css -o assets/src/styles/app.css --watch --minify
 	./tailwindcss -i tailwind.css -o assets/src/styles/app.css --watch

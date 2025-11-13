@@ -22,7 +22,7 @@ func PopoverComponent(id string, buttonContent Node, popoverContent ...Node) Nod
 		),
 		Button(
 			Attr("popovertarget", id),
-			Class("inline ml-2"),
+			Class("cursor-pointer inline-block hover:text-blue-500"),
 			buttonContent,
 		),
 	)

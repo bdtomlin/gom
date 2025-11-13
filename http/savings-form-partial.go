@@ -2,25 +2,21 @@ package http
 
 import (
 	"net/http"
-	"time"
 
 	. "maragu.dev/gomponents"
-	hx "maragu.dev/gomponents-htmx/http"
 	ghttp "maragu.dev/gomponents/http"
 
 	"app/forms"
-	"app/pages"
 	"app/partials"
 )
 
 // Home handler for the home page, as well as HTMX partial for getting things.
-func Index() http.HandlerFunc {
+func SavingsFormPartial() http.HandlerFunc {
 	h := func(w http.ResponseWriter, r *http.Request) (Node, error) {
-		if hx.IsRequest(r.Header) {
-			return partials.SavingsForm(forms.NewSavingsForm()), nil
-		}
-
-		return pages.Index(pages.LayoutProps{}, r, time.Now()), nil
+		f := forms.NewSavingsForm()
+		f.Decode(r)
+		f.Validate()
+		return partials.SavingsForm(f), nil
 	}
 
 	return ghttp.Adapt(h)

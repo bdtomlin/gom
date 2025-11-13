@@ -8,8 +8,7 @@ require (
 	maragu.dev/env v0.2.0
 	maragu.dev/gomponents v1.2.0
 	maragu.dev/gomponents-htmx v0.6.1
-	maragu.dev/httph v0.3.7
 	maragu.dev/is v0.3.1
 )
 
-require github.com/mitchellh/mapstructure v1.5.0 // indirect
+require github.com/go-echarts/go-echarts/v2 v2.6.7

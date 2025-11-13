@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func CreateManifest() {
+func CreateAssetMap() {
 	srcDir := "assets/src"
 	fileMap := make(map[string]string)
 	out := &bytes.Buffer{}

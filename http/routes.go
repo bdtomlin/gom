@@ -20,7 +20,8 @@ func (s *Server) setupRoutes() {
 			assets.Static(r)
 		})
 
-		r.Get("/", Index(s))
-		r.Get("/example", Example(s))
+		r.Get("/", Index())
+		r.Post("/savings-form-partial", SavingsFormPartial())
+		r.Post("/contact", SavingsFormPartial())
 	})
 }
